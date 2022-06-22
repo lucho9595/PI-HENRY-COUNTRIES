@@ -1,5 +1,5 @@
 const axios = require('axios');
-const {Country} = require('../../db');
+const {Country, Activity} = require('../../db');
 
 const getAllCountries = async () => {
  try{
@@ -41,17 +41,18 @@ const getAllCountries = async () => {
  }
 };
 
-const getCountriesByName = async (name) => {
+const getCountriesById = async (id) => {
    try {
-      let nameCountries = Country.findAll({where:{name: name}})
-      return nameCountries;
+      let idCountries = await Country.find(id.toUpperCase(),{incluide: {Activity}})
+      console.log('funcionando por id')
+      return idCountries;
    }
    catch(err){
-      console.log('Error getCountryByName en controller ' + err);
+      console.log('Error getCountriesById en controller ' + err);
    }
 }
 
 module.exports = {
    getAllCountries,
-   getCountriesByName
+   getCountriesById
 };

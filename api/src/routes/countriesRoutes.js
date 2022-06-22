@@ -1,5 +1,6 @@
 const { Router } = require('express');
-const {getAllCountries, getCountriesByName} = require('../controllers/CountriesControl/getCountries.js');
+const {getAllCountries} = require('../controllers/CountriesControl/getCountries.js');
+const {Country, Activity} = require ('../db');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
@@ -9,7 +10,7 @@ const router = Router();
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
-router.use('/', async (req, res) => {
+router.get('/', async (req, res) => {
     const { name } = req.query;
     try {
         if(name){
@@ -30,6 +31,28 @@ router.use('/', async (req, res) => {
     } catch (error) {
         console.log('Error getCountries en el llamado ' + error)
     }
-})
+});
+
+router.get("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+      const country = await Country.findByPk(id.toUpperCase(), {
+        include: {
+          model: Activity,
+        },
+      });
+      country
+        ? res.status(200).json(country)
+        : res
+            .status(404)
+            .json({
+              error: "COUNTRY_NOT_FOUND",
+              description: `There is not a country with ${id.toUpperCase()}`,
+            });
+    } catch (e) {
+      console.log("/routes/countries/:id get error", e);
+      res.status(500).send({ error: "ID_ERROR", description: "Error found ID" });
+    }
+  });
 
 module.exports = router;
