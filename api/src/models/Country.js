@@ -4,10 +4,10 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('country', {
-    ID: {
+    id: {
       type: DataTypes.STRING(3),
+      allowNull: false,
       primaryKey: true,
-      allowNull: false
     },
     name: {
       type: DataTypes.STRING,
@@ -41,7 +41,10 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false
 
-    }
+    },
+    // mapLocation:{
+    //   type: DataTypes.STRING,
+    // }
 
   },{
     timestamps: false,
