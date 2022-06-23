@@ -1,5 +1,21 @@
+/*Background*/
+* {
+  background-image: url('../src/Image/photo-1600633349333-eebb43d01e23.jpg');
+  background-size: cover;
+}
+/*Botton*/
+.Button{
+  background-color: #61dafb;
+}
+
+.Button:hover{
+  cursor: pointer;
+}
+
+/**/
 .App {
   text-align: center;
+  
 }
 
 .App-logo {
