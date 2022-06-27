@@ -5,12 +5,13 @@ import {Link} from "react-router-dom";
 
 function landindPage() {
     return (
-        <div className={styles.s}>
-                <Link to="/countries"  >
-                    <input type="button" value="Get Home"/>
-                </Link>
-        </div>
-    )
+        <div className ="landingPage">
+        <h1 className = 'landingTitle'> Bienvenidos </h1>
+        <h2 className = 'landingSubTitle'> a mi proyecto Henry</h2>
+        <Link to ='/home'>
+            <button className='landingButton'> Iniciar experiencia </button>
+        </Link>
+    </div>    )
 
 };
 
