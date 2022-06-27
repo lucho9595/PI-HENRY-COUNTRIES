@@ -19,10 +19,12 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
+const { getAllCountries } = require('./src/controllers/CountriesControl/getCountries.js')
 
 // Syncing all the models at once.
-conn.sync({ force: false}).then(() => {
+conn.sync({ force: false }).then(() => {
   server.listen(3001, () => {
+    getAllCountries(),
     console.log('%s listening at 3001, funciona a la perfeccion'); // eslint-disable-line no-console
   });
 });

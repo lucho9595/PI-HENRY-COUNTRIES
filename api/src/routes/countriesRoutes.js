@@ -26,6 +26,7 @@ router.get('/', async (req, res) => {
         return res.status(404).json({ error: "Country is not found", description: "The country entered does not exist" })
       
     }
+    
     const country = await Country.findAll({
       include: { model: Activity },
     });

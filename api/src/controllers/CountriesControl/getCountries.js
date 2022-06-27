@@ -52,7 +52,6 @@ const getCountriesById = async (id) => {
    }
 }
 
-const createActivity =
 
 module.exports = {
    getAllCountries,

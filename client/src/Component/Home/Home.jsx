@@ -1,12 +1,13 @@
 import React, { useEffect} from "react";
-import { useDispatch} from "react-redux";
+
+import { useDispatch, useSelector} from "react-redux";
 import { getAllCountries } from "../../redux/Actions/index";
 import CardsComponent from "../Cards/Cards";
 import './Home.css'
 
 function HomeComponent() {
     const dispatch = useDispatch();
-    // const allCountries = useSelector(state => state.allCountries)
+    const allCountry = useSelector(state => state.allCountries)
     // const [currentPage, setCurrentPage] = useState(1);
     // const [itemsPerPages] = useState(10);
 
@@ -21,14 +22,9 @@ function HomeComponent() {
 
     return(
         <div className="home">
-            
-            <div className="filters">
-            </div>
             <div className="cards">
-                <CardsComponent/>
-            </div>
-            <div className="pagination">
-            </div>
+                <CardsComponent allCountries={allCountry}/>
+                </div>
         </div>
         
     )
