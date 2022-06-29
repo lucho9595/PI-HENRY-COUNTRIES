@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import styles from "./landing.module.css";
+import React from "react";
+import styles from "./Landing.module.css";
 import {Link} from "react-router-dom";
-import { getAllCountries } from "../../redux/Actions";
-import { useDispatch } from "react-redux";
+// import { getAllCountries } from "../../redux/Actions";
+// import { useDispatch } from "react-redux";
 // import { Link } from "react-router-dom";
 
 function LandingPage() {
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getAllCountries())
-    }, [dispatch])
+    // const dispatch = useDispatch();
+    // useEffect(() => {
+    //     dispatch(getAllCountries())
+    // }, [dispatch])
 
     return (
         <div className ="landingPage">

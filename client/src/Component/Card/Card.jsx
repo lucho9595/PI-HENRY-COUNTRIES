@@ -1,30 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import './Card.css'
+import './Card.module.css'
 
-function CardComponent({id, name, flag, continents, population, activities}) {
+//va a renderizar lo que yo preciso
+function Card({ name, flag, continents, population, activities}) {
     return(
-        <Link to={`/country/${id}`} className='linkToDetails'>
-            <div className="card">
-                <div key={id}>
-                    <img src={flag} alt='img not found' className='flagImg' />
-                    <div className="infoCard">
-                        <h1 className="title">{name}</h1>
-                        <p className="continents">Continente: {continents}</p>
-                        <p className="population">Poblacion: {population}</p>
-                        <ul>
-                        {activities?.map(activity => {
-                            return(
-                                <li key={activity.id}>Actividades: {activity.name}</li>
-                                )
-                            })} 
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </Link>
+        <div>
+            <h3>{name}</h3>
+            <img src={flag} alt="Img not Found" />
+            <h4>{continents}</h4>
+            <h4>{population}</h4>
+            <h4>{activities}</h4>
+        </div>
     )
-}
 
-export default CardComponent;
+}
+export default Card;
