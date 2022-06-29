@@ -56,9 +56,12 @@ export function getNameCountries(name) {
 //filtrar los paises por continentes
 
 export function filterCountriesByContinent(payload) {
-    return {
+    console.log(payload)
+    return function(dispatch) {
+        dispatch({
         type: FILTER_BY_CONTINENT,
-        payload: payload
+        payload
+        })
     }
 }
 
@@ -68,7 +71,7 @@ export function filterCountriesByContinent(payload) {
 export function filterCountriesByActivity(payload) {
     return {
         type: FILTER_BY_ACTIVITIES,
-        payload: payload
+        payload
     }
 }
 

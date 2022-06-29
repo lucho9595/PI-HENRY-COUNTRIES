@@ -23,7 +23,7 @@ const SearchBar = () => {
     return (
         <div >
             <input  type="text" placeholder="Insert country..." value={search} onChange={(e) => handleChange(e)}/>
-            <input  type="submit" onClick={(e) => handleClick(e)}/>
+            <input  type="submit" value="Search" onClick={(e) => handleClick(e)}/>
 
         </div>
     )

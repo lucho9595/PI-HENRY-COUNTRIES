@@ -1,20 +1,21 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {getActivities, filterCountriesByActivity,  filterCountriesByContinent, orderNameAZ, orderNameZA, orderPopulationMayor, orderPopulationMinior} from "../../redux/Actions/index.js";
+import { getActivities, filterCountriesByActivity, filterCountriesByContinent, orderNameAZ, orderNameZA, orderPopulationMayor, orderPopulationMinior } from "../../redux/Actions/index.js";
 
-const Order = () => {
+const Order = ({setCurrentPage}) => {
     const dispatch = useDispatch();
     const activity = useSelector(state => state.activities);
 
-    function filterActivity(e){
+    function filterActivity(e) {
         e.preventDefault();
         dispatch(filterCountriesByActivity())
     }
 
-    function filterContinent(e){
-        e.preventDefault();
-        dispatch(filterCountriesByContinent())
+    function handleContinent(e) {
+        dispatch(filterCountriesByContinent(e.target.value));
+        setCurrentPage(1);
     }
+
 
     function orderByAZ(e) {
         e.preventDefault();
@@ -33,37 +34,33 @@ const Order = () => {
         dispatch(orderPopulationMinior());
     }
 
- useEffect(()=>{
-    dispatch(getActivities())
- })
+    useEffect(() => {
+        dispatch(getActivities())
+    })
 
- return (
-    <div>
-        <button onClick={(e) => orderByAZ(e)}>A-Z</button>
-        <button  onClick={(e) => orderByZA(e)}>Z-A</button>
-        <button onClick={(e) => orderPopMajor(e)}>Pop + to -</button>
-        <button  onClick={(e) => orderPopMinor(e)}>Pop - to +</button>
-        <select  name="continent" onChange={filterContinent}>
-            <option disabled>Continent</option>
-            <option value="Africa">Africa</option>
-            <option value="Americas">Americas</option>
-            <option value="Asia">Asia</option>
-            <option value="Europe">Europe</option>
-            <option value="Oceania">Oceania</option>
-        </select>
-        <select  name="activity" onChange={filterActivity}>
-            {
-                activity?.map((e) => 
-                    <option value={e.id} key={e.id}>{e.name}</option>
-                )
-            }
+    return (
+        <div>
+            <button onClick={(e) => orderByAZ(e)}>A-Z</button>
+            <button onClick={(e) => orderByZA(e)}>Z-A</button>
+            <button onClick={(e) => orderPopMajor(e)}>Pop + to -</button>
+            <button onClick={(e) => orderPopMinor(e)}>Pop - to +</button>
+            <select onChange={e => handleContinent(e)}>
+                <option value='All'>All Continents</option>
+                <option value="Antarctica">Antarctica</option>
+                <option value="Europe">Europe</option>
+                <option value="Africa">Africa</option>
+                <option value="Oceania">Oceania</option>
+                <option value="Asia">Asia</option>
+                <option value="North America">North America</option>
+                <option value="South America">South America</option>
+            </select>
+            <select name="activity" onChange={filterActivity}>
+                {activity?.map((e) => <option value={e.id} key={e.id}>{e.name}</option>)}
+            </select>
+        </div>
 
-        </select>
-    </div>
-)
-
+    )
 }
 
 export default Order;
 
-    

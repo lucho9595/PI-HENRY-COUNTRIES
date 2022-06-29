@@ -46,23 +46,23 @@ const rootReducer = (state = initialState, action) => {
         //         //se filtra allcountries y va a devolver el continente de country que coincida con el action payload
         //         //luego devolvemos el countries filtrado;
                 case FILTER_BY_CONTINENT:
-                    const allCountries = state.countries;
-                    const continentFilter =
+                    const allCountries = state.allCountries;
+                    const continentFiltered =
                         action.payload === "All"
                             ? allCountries
                             : allCountries.filter(
-                                (country) => country.continent === action.payload
+                                (country) => country.continents === action.payload
                             );
                     return {
                         ...state,
-                        countries: continentFilter,
+                        allCountries:  continentFiltered ,
                     };
         //         //si hay una caso de FILTER_BY_ACTIVITIES, almacenamos en una variable a todas las actividades;
         //         //luego en el caso que devuelva a todos, devuelve todas las actividades o sea activities, si no
         //         //se filtra activities y va a devolver la actividad de act que coincida con el action payload
         //         //luego devolvemos la actividad filtrada;
                 case FILTER_BY_ACTIVITIES:
-                    const activities = state.countries;
+                    const activities = state.allCountries;
                     const activitiesFilter =
                         action.payload === "All"
                             ? activities
