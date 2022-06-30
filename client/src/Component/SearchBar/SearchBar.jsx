@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import {getNameCountries} from "../../redux/Actions/index";
+import { getNameCountries } from "../../redux/Actions/index";
 import style from "../SearchBar/SearchBar.module.css"
 
 
@@ -13,17 +13,17 @@ const SearchBar = () => {
         e.preventDefault();
         dispatch(getNameCountries(search));
         setSearch("");
-    } 
+    }
 
 
-    const handleChange = async (e) => {
-        await setSearch(e.target.value);
+    const handleChange = (e) => {
+        setSearch(e.target.value);
     }
 
     return (
         <div >
-            <input  type="text" placeholder="Insert country..." value={search} onChange={(e) => handleChange(e)}/>
-            <input  type="submit" value="Search" onClick={(e) => handleClick(e)}/>
+            <input type="text" placeholder="Insert country..." value={search} onChange={(e) => handleChange(e)} />
+            <input type="submit" value="Search" onClick={(e) => handleClick(e)} />
 
         </div>
     )

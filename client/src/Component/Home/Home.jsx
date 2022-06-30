@@ -9,7 +9,7 @@ import Paginado from "../Paginado/Paginado";
 
 function HomeComponent() {
     const dispatch = useDispatch();
-    const countries = useSelector(state => state.allCountries) //es lo mismo que hacer el mapStateToProps
+    const countries = useSelector(state => state.countries) //es lo mismo que hacer el mapStateToProps
 
     //PAGINADO
     //aca hicimos que guarde en un estado local la pagina actual, comienza en 1 por que siempre voy a arrancar de la primer pagina

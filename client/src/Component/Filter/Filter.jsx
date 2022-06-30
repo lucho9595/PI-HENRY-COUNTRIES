@@ -1,30 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getActivities, filterCountriesByActivity, filterCountriesByContinent, orderNameAZ, orderNameZA, orderPopulationMayor, orderPopulationMinior } from "../../redux/Actions/index.js";
+import { getActivities, filterCountriesByActivity, filterCountriesByContinent, orderAlpha, orderPopulationMayor, orderPopulationMinior } from "../../redux/Actions/index.js";
 
-const Order = ({setCurrentPage}) => {
+const Order = ({ setCurrentPage }) => {
     const dispatch = useDispatch();
-    const activity = useSelector(state => state.activities);
+    const allActivities = useSelector(state => state.activities);
+    const [order, setOrder] = useState(" ");
 
-    function filterActivity(e) {
+    function handleActivity(e) {
         e.preventDefault();
-        dispatch(filterCountriesByActivity())
+        dispatch(filterCountriesByActivity(e.target.value));
+        setCurrentPage(1);
     }
 
     function handleContinent(e) {
+        e.preventDefault();
         dispatch(filterCountriesByContinent(e.target.value));
         setCurrentPage(1);
     }
 
 
-    function orderByAZ(e) {
+    function handleOrderAlpha(e) {
         e.preventDefault();
-        dispatch(orderNameAZ());
+        dispatch(orderAlpha(e.target.value));
+        setCurrentPage(1);
+        setOrder(`Ordenado ${e.target.value}`);
+        //para lo unico que lo vamos a usar es que cuando yo setea la pagina de arriba
+        //modifique el estado local y se renderiza.
     }
-    function orderByZA(e) {
-        e.preventDefault();
-        dispatch(orderNameZA());
-    }
+    
     function orderPopMajor(e) {
         e.preventDefault();
         dispatch(orderPopulationMayor());
@@ -40,8 +44,11 @@ const Order = ({setCurrentPage}) => {
 
     return (
         <div>
-            <button onClick={(e) => orderByAZ(e)}>A-Z</button>
-            <button onClick={(e) => orderByZA(e)}>Z-A</button>
+            <select onChange={e => handleOrderAlpha(e)}>
+                <option value="Ascendente"> Ascendente </option>
+                <option value="Descendente"> Descendente </option>
+
+            </select>
             <button onClick={(e) => orderPopMajor(e)}>Pop + to -</button>
             <button onClick={(e) => orderPopMinor(e)}>Pop - to +</button>
             <select onChange={e => handleContinent(e)}>
@@ -54,8 +61,15 @@ const Order = ({setCurrentPage}) => {
                 <option value="North America">North America</option>
                 <option value="South America">South America</option>
             </select>
-            <select name="activity" onChange={filterActivity}>
-                {activity?.map((e) => <option value={e.id} key={e.id}>{e.name}</option>)}
+            <select onChange={(e) => handleActivity(e)}>
+                <option value='All'>All Activities</option>
+                {allActivities.map((el) => {
+                    return (
+                        <option value={el.name} key={el.id}>
+                            {el.name}
+                        </option>
+                    );
+                })}
             </select>
         </div>
 
