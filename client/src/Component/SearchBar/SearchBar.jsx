@@ -5,29 +5,30 @@ import style from "../SearchBar/SearchBar.module.css"
 
 
 
-const SearchBar = () => {
-    const [search, setSearch] = useState("");
+export default function SearchBar() {
+    const [name, setName] = useState("");
     const dispatch = useDispatch();
 
-    const handleClick = (e) => {
+    const handleInputChange = (e) => {
         e.preventDefault();
-        dispatch(getNameCountries(search));
-        setSearch("");
+        setName(e.target.value);
+        // setName("");
+        console.log(name)
+
     }
 
-
-    const handleChange = (e) => {
-        setSearch(e.target.value);
+    function handleSubmit(e) {
+        e.preventDefault();
+        // if (name.length === 0) return alert('Debe colocar un Pais');
+        dispatch(getNameCountries(name));
+        setName("")
     }
 
     return (
         <div >
-            <input type="text" placeholder="Insert country..." value={search} onChange={(e) => handleChange(e)} />
-            <input type="submit" value="Search" onClick={(e) => handleClick(e)} />
-
+            <input type='text' placeholder='Buscar...' onChange={(el) => handleInputChange(el)} />
+            <button className="search" type="submit" onClick={(el) => handleSubmit(el)}>Buscar</button>
         </div>
     )
 
 }
-
-export default SearchBar;

@@ -1,13 +1,13 @@
 import axios from 'axios';
 export const GET_COUNTRIES = "GET_COUNTRIES";
 export const GET_DETAIL = "GET_DETAIL";
-export const GET_NAME_COUNTRIES = "GET_NAME_COUNTRIES";
+export const SEARCH_COUNTRIES = "SEARCH_COUNTRIES";
 export const FILTER_BY_CONTINENT = " FILTER_BY_CONTINENT";
 export const FILTER_BY_ACTIVITIES = "  FILTER_BY_ACTIVITIES";
 export const ORDER_ALPHA = "ORDER_ALPHA";
 export const ORDER_POP_MIN = " ORDER_POP_MIN ";
 export const ORDER_POP_MAY = " ORDER_POP_MAY ";
-export const GET_ACTIVITIES = "GET_ACTIVITIES";
+// export const GET_ACTIVITIES = "GET_ACTIVITIES";
 // export const POST_ACTIVITIES = " POST_ACTIVITIES";
 
 
@@ -44,12 +44,12 @@ export function getDetail(id) {
 
 export function getNameCountries(name) {
     return async function (dispatch) {
-        var json = await axios.get(`http://localhost:3001/countries?name=${name}`)
+        let json = await axios.get("http://localhost:3001/countries?name=" + name)
         return dispatch({
-            type: GET_NAME_COUNTRIES,
-            payload: json.data
+          type: SEARCH_COUNTRIES,
+          payload: json.data
         });
-    }
+  }
 }
 
 //filtrar los paises por continentes
@@ -76,8 +76,8 @@ export function filterCountriesByActivity(payload) {
 
 export function orderAlpha(payload) {
     return {
-        type:ORDER_ALPHA,
-         payload
+        type: ORDER_ALPHA,
+        payload
     }
 }
 
@@ -119,17 +119,17 @@ export function orderPopulationMinior() {
 
 // //traer las actividades
 
-export function getActivities() {
-    return async function (dispatch) {
+// export function getActivities() {
+//     return async function (dispatch) {
 
-        let json = await axios.get('http://localhost:3001/activity');
-        return dispatch({
-            type: GET_ACTIVITIES,
-            payload: json.data
-        })
+//         let json = await axios.get('http://localhost:3001/activity');
+//         return dispatch({
+//             type: GET_ACTIVITIES,
+//             payload: json.data
+//         })
 
-    }
-}
+//     }
+// }
 
 // //crear nuevas actividades
 

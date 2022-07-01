@@ -1,59 +1,70 @@
 const axios = require('axios');
 const {Country, Activity} = require('../../db');
 
-const getAllCountries = async () => {
- try{
-    const country1 = await axios.get('https://restcountries.com/v3/all');
-    const country2 = country1.data.map(element => {
-        return {
-          id: element.cca3,
-          name: element.name.common,
-          flag: element.flags[1],
-          continents: element.continents[0],
-          capital: element.capital ? element.capital[0] : 'Capital not found',
-          subregion: element.subregion
-            ? element.subregion
-            : 'Subregion not found',
-          area: element.area,
-          population: element.population,
-         //  mapLocation: element.maps.googleMaps,
-        }
-      });
-      country2.forEach((country) => {
-         Country.findOrCreate({
-            
-             where: { id: country.id,
-                 name: country.name,
-                 flag: country.flag,
-                 continents: country.continents,
-                 capital: country.capital,
-                 subregion: country.subregion,
-                 area: country.area,
-                 population: country.population,
-             }
-         })
-      })
-    return country2;
-      } 
- 
- catch(err){
-   console.log('Error getAllCountry en controller ' + err);
- }
+const getApiInfo = async () => {
+   const countries = await Country.findAll({
+       attributes: ["id", "name", "flag", "continents", "capital", "subregion", "area", "population"],
+   });
+   if (!countries.length) {
+       var allCountry = await axios.get("https://restcountries.com/v3/all");
+       allCountry = allCountry.data
+       allCountry = allCountry.map((element) => {
+
+           return {
+            id: element.cca3,
+            name: element.name.common,
+            flag: element.flags[1],
+            continents: element.continents[0],
+            capital: element.capital ? element.capital[0] : 'Capital not found',
+            subregion: element.subregion
+              ? element.subregion
+              : 'Subregion not found',
+            area: element.area,
+            population: element.population,
+           }
+       });
+       await Country.bulkCreate(allCountry);
+       return allCountry;
+   } else {
+       return countries
+   }
 };
 
-const getCountriesById = async (id) => {
-   try {
-      let idCountries = await Country.find(id.toUpperCase(),{incluide: {Activity}})
-      console.log('funcionando por id')
-      return idCountries;
-   }
-   catch(err){
-      console.log('Error getCountriesById en controller ' + err);
-   }
+const getDbInfo = async () => {
+   return await Country.findAll({
+       include: {
+           model: Activity,
+           attributes:["name", "difficulty", "duration", "season"],
+           through: {
+               attributes: [],
+           },
+       }
+   })
+}
+
+const getAllCountries = async () => {
+   const apiInfo = await getApiInfo();
+   const dbInfo = await getDbInfo();
+   const infoTotal = apiInfo.concat(dbInfo);
+   return infoTotal
+}
+const getActivity = async () => {
+   const activity = await Activity.findAll({
+       include: { 
+           model: Country,
+           attributes:["name", "flag", "continents"],
+           through: {
+               attributes: [],
+           }
+       }
+   })
+   return activity
 }
 
 
-module.exports = {
+module.exports={
    getAllCountries,
-   getCountriesById
-};
+   getDbInfo,
+   getApiInfo,
+   getActivity
+}

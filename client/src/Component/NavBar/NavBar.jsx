@@ -1,11 +1,17 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { getAllCountries } from "../../redux/Actions";
-import Order from "../Filter/Filter";
-import SearchBar from "../SearchBar/SearchBar";
+import FilterOrder from "../Filter/FilterContinent";
+import FilterAlpha from "../Filter/FilterAlpha";
+// import FilterActivity from "../Filter/FilterActivity";
+import SearchBar from "../SearchBar/SearchBar.jsx";
 
 
-const NavBar = ({setCurrentPage}) =>{
+
+
+
+
+const NavBar = ({setCurrentPage, setOrder}) =>{
     const dispatch = useDispatch();
 
 
@@ -16,11 +22,15 @@ const NavBar = ({setCurrentPage}) =>{
       }
     return (
         <div>
-            <SearchBar/>
-            <Order setCurrentPage={setCurrentPage}/>
+            <FilterOrder setCurrentPage={setCurrentPage}/>
+            <FilterAlpha setOrder={setOrder}/>
+            {/* <FilterActivity setCurrentPage={setCurrentPage}/> */}
+            <SearchBar setCurrentPage={setCurrentPage}/>
+
             <button onClick={(e) => handleFilters(e)}>
         Show all Countries
       </button>
+
         </div>
     )
 }

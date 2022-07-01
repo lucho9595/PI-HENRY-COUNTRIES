@@ -1,62 +1,44 @@
-const express = require('express');
-const { Op } = require('sequelize');
-// const { getAllCountries } = require('../controllers/CountriesControl/getCountries.js');
-const { Country, Activity } = require('../db');
+const { Router } = require('express');
+const axios = require("axios");
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
+const { Country, Activity } = require('../db');
+const router = Router();
+const { getAllCountries } = require("../controllers/CountriesControl/getCountries.js")
 
-const router = (express.Router());
-
-router.use(express.json());
-
-router.get('/', async (req, res) => {
-  const { name } = req.query;
-  try {
-    if (name) {
-      let searchName = await Country.findAll({
-        where: {
-          name: { [Op.iLike]: `%${name}%`, },
-        },
-          incluides:{ Activity}
-        
-      });
-      if (searchName.length) {
-        return res.json({ searchName })
-      } 
-        return res.status(404).json({ error: "Country is not found", description: "The country entered does not exist" })
-      
+router.get("/", async (req, res) =>{
+    try{
+        const {name} = req.query;
+        let countriesTotal = await getAllCountries();
+        if (name){
+            let countryName = await countriesTotal.filter(el => el.name.toLowerCase().includes(name.toLowerCase()))
+            countryName.length ?
+            res.status(200).send(countryName) :
+            res.status(404).send("No existent country")
+        } else if(countriesTotal){
+            res.status(200).send(countriesTotal)
+        }
     }
-    
-    const country = await Country.findAll({
-      include: { model: Activity },
-    });
-    res.status(200).json(country);
-
-  } catch (error) {
-    console.log('Error getCountries en el llamado ' + error)
-  }
+    catch(e){res.status(404).send("No existent country")}
 });
 
 router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const country = await Country.findByPk(id.toUpperCase(), {
-      include: {
-        model: Activity,
-      },
-    });
-    country
-      ? res.status(200).json(country)
-      : res
-        .status(404)
-        .json({
-          error: "COUNTRY_NOT_FOUND",
-          description: `There is not a country with ${id.toUpperCase()}`,
+    try {
+        const { id } = req.params;
+        const project = await Country.findByPk(id.toUpperCase(), {
+            include:{ 
+                model: Activity,
+                attributes:["name", "difficulty", "duration", "season"],
+                through: {
+                    attributes: [],
+                }
+            }
         });
-  } catch (e) {
-    console.log("/routes/countries/:id get error", e);
-    res.status(500).send({ error: "ID_ERROR", description: "Error found ID" });
-  }
+            project ?
+            res.status(200).json(project) :
+            res.status(404).send("nonexistent country")
+    }
+    catch (e) {res.status(404).send("nonexistent country")}
 });
 
 module.exports = router;

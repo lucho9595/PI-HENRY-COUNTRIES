@@ -1,11 +1,11 @@
 import {
     GET_COUNTRIES,
     GET_DETAIL,
-    GET_NAME_COUNTRIES,
+    SEARCH_COUNTRIES,
     FILTER_BY_CONTINENT,
     FILTER_BY_ACTIVITIES,
     ORDER_ALPHA,
-    GET_ACTIVITIES,
+    // GET_ACTIVITIES,
     ORDER_POP_MAY,
     ORDER_POP_MIN,
     // POST_ACTIVITIES
@@ -35,7 +35,7 @@ const rootReducer = (state = initialState, action) => {
                 details: action.payload
             }
         //         //si hay una caso de GET_NAME_COUNTRIES, devuelve un pais que se este buscando;
-        case GET_NAME_COUNTRIES:
+        case SEARCH_COUNTRIES:
             return {
                 ...state,
                 countries: action.payload
@@ -72,23 +72,28 @@ const rootReducer = (state = initialState, action) => {
                 countries: activitiesFilter,
             }
         case ORDER_ALPHA:
-        let orderAlpha = action.payload === "Ascendente"?
+        let orderAlpha = action.payload === "A-Z" ?
         state.countries.sort(function (a,b){
-            if (a.name > b.name) return 1;
-            if (a.name < b.name) return -1;
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name){
+                 return -1;
+                }
             return 0;
-
-        }):    
-        state.countries.sort(function (a,b){
-            if (a.name > b.name) return -1;
-            if (a.name < b.name) return 1;
+        }) :    
+        state.countries.sort(function (a,b) {
+            if (a.name > b.name){
+                 return -1;
+                }
+            if (a.name < b.name){ 
+                return 1;
+            }
             return 0;
-
         })     
-
         return{
             ...state,
-            counries: orderAlpha
+            countries: orderAlpha
         };
         case ORDER_POP_MAY:
             return {
@@ -101,11 +106,11 @@ const rootReducer = (state = initialState, action) => {
                 countries: action.payload
             }
 
-        case GET_ACTIVITIES:
-            return {
-                ...state,
-                activities: action.payload
-            }
+        // case GET_ACTIVITIES:
+        //     return {
+        //         ...state,
+        //         activities: action.payload
+        //     }
         //         case POST_ACTIVITIES:
         //             return {
         //                 ...state,
