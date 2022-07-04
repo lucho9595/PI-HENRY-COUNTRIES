@@ -18,9 +18,9 @@ router.post("/", async (req, res) => {
     });
     countries?.map(async (countryId) => {
       const foundCountry = await Country.findAll({
-        where: { idName: countryId },
+        where: { name: countryId },
       });
-      if (foundCountry) newActivity.addCountries(foundCountry);
+      newActivity.addCountries(foundCountry);
     });
     res.status(201).json({ msg: "Activity created correctly" });
   } catch (e) {
@@ -39,26 +39,9 @@ router.get("/", async (req, res) => {
     });
     res.json(activities);
   } catch (e) {
-    console.log("/api/src/routes/activities.js get error " + e);
+    console.log(" get error " + e);
     res.json({ error: "There is not an activity created" });
   }
 });
 
-router.delete("/del/:idActivity", async (req, res) => {
-  const { idActivity } = req.params;
-  try {
-    const act = await Activity.findByPk(idActivity);
-    if (!act) {
-      return res.status(404).json({
-        error: "ACT_NOT_FOUND",
-        description: `There is no activity with the id ${idActivity}`,
-      });
-    }
-    await act.destroy();
-    return res.json({ msg: `The activity with the id ${idActivity} was deleted` });
-  } catch (e) {
-    console.log("/routes/activies.js error: " + e);
-    return res.json({error: e.message})
-  }
-});
 module.exports = router;

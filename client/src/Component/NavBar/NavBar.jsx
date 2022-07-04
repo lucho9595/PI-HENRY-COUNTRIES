@@ -3,36 +3,30 @@ import { useDispatch } from "react-redux";
 import { getAllCountries } from "../../redux/Actions";
 import FilterOrder from "../Filter/FilterContinent";
 import FilterAlpha from "../Filter/FilterAlpha";
-// import FilterActivity from "../Filter/FilterActivity";
-import SearchBar from "../SearchBar/SearchBar.jsx";
+import FilterActivity from "../Filter/FilterActivity";
+import FilterPopulation from "../Filter/FilterPopulation.jsx";
+
+const NavBar = ({ setCurrentPage, setOrder }) => {
+  const dispatch = useDispatch();
 
 
-
-
-
-
-const NavBar = ({setCurrentPage, setOrder}) =>{
-    const dispatch = useDispatch();
-
-
-    function handleFilters(e) {
-        e.preventDefault();
-        dispatch(getAllCountries());
-        setCurrentPage(1);
-      }
-    return (
-        <div>
-            <FilterOrder setCurrentPage={setCurrentPage}/>
-            <FilterAlpha setOrder={setOrder}/>
-            {/* <FilterActivity setCurrentPage={setCurrentPage}/> */}
-            <SearchBar setCurrentPage={setCurrentPage}/>
-
-            <button onClick={(e) => handleFilters(e)}>
+  function handleFilters(e) {
+    e.preventDefault();
+    dispatch(getAllCountries());
+    setCurrentPage(1);
+  }
+  return (
+    <div>
+      <FilterOrder setCurrentPage={setCurrentPage} />
+      <FilterAlpha setOrder={setOrder} />
+      <FilterActivity setCurrentPage={setCurrentPage}/>
+      <FilterPopulation setOrder ={setOrder}/>
+      <button onClick={(e) => handleFilters(e)}>
         Show all Countries
       </button>
 
-        </div>
-    )
+    </div>
+  )
 }
 
 export default NavBar;

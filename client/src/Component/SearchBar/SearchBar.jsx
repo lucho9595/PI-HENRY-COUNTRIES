@@ -11,23 +11,23 @@ export default function SearchBar() {
 
     const handleInputChange = (e) => {
         e.preventDefault();
+        
         setName(e.target.value);
-        // setName("");
         console.log(name)
+        
 
     }
 
     function handleSubmit(e) {
         e.preventDefault();
-        // if (name.length === 0) return alert('Debe colocar un Pais');
         dispatch(getNameCountries(name));
-        setName("")
+        setName("");
     }
 
     return (
         <div >
-            <input type='text' placeholder='Buscar...' onChange={(el) => handleInputChange(el)} />
-            <button className="search" type="submit" onClick={(el) => handleSubmit(el)}>Buscar</button>
+            <input type='text' placeholder='Buscar...' value={name} onChange={(el) => handleInputChange(el)} />
+            <button className="search" type="submit" value={name} onClick={(el) => handleSubmit(el)}>Buscar</button>
         </div>
     )
 

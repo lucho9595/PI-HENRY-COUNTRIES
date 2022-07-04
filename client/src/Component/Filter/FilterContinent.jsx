@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import { useDispatch} from "react-redux";
-import { filterCountriesByContinent, orderPopulationMayor, orderPopulationMinior } from "../../redux/Actions/index.js";
+import { filterCountriesByContinent } from "../../redux/Actions/index.js";
 
 const continentsOrder = ({ setCurrentPage }) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -13,20 +13,8 @@ const continentsOrder = ({ setCurrentPage }) => {
         dispatch(filterCountriesByContinent(e.target.value));
         setCurrentPage(1);
     }
-
-    function orderPopMajor(e) {
-        e.preventDefault();
-        dispatch(orderPopulationMayor());
-    }
-
-    function orderPopMinor(e) {
-        e.preventDefault();
-        dispatch(orderPopulationMinior());
-    }
     return (
         <div>
-            <button onClick={(e) => orderPopMajor(e)}>Pop + to -</button>
-            <button onClick={(e) => orderPopMinor(e)}>Pop - to +</button>
             <select onChange={e => handleContinent(e)}>
                 <option value='All'>All Continents</option>
                 <option value="Antarctica">Antarctica</option>

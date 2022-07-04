@@ -5,10 +5,10 @@ import {
     FILTER_BY_CONTINENT,
     FILTER_BY_ACTIVITIES,
     ORDER_ALPHA,
-    // GET_ACTIVITIES,
-    ORDER_POP_MAY,
-    ORDER_POP_MIN,
-    // POST_ACTIVITIES
+    GET_ACTIVITIES,
+    ORDER_POPULATION,
+    POST_ACTIVITIES,
+    RESET
 } from "../Actions/index.js";
 
 const initialState = {
@@ -33,6 +33,11 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 details: action.payload
+            }
+            case RESET:
+            return {
+                ...state,
+                detail: []
             }
         //         //si hay una caso de GET_NAME_COUNTRIES, devuelve un pais que se este buscando;
         case SEARCH_COUNTRIES:
@@ -72,49 +77,47 @@ const rootReducer = (state = initialState, action) => {
                 countries: activitiesFilter,
             }
         case ORDER_ALPHA:
-        let orderAlpha = action.payload === "A-Z" ?
-        state.countries.sort(function (a,b){
-            if (a.name > b.name) {
-                return 1;
-            }
-            if (a.name < b.name){
-                 return -1;
-                }
-            return 0;
-        }) :    
-        state.countries.sort(function (a,b) {
-            if (a.name > b.name){
-                 return -1;
-                }
-            if (a.name < b.name){ 
-                return 1;
-            }
-            return 0;
-        })     
-        return{
-            ...state,
-            countries: orderAlpha
-        };
-        case ORDER_POP_MAY:
+            let orderAlpha = action.payload === "A-Z" ?
+                state.countries.sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                }) :
+                state.countries.sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return -1;
+                    }
+                    if (a.name < b.name) {
+                        return 1;
+                    }
+                    return 0;
+                })
             return {
                 ...state,
-                countries: action.payload
-            }
-        case ORDER_POP_MIN:
+                countries: orderAlpha
+            };
+        case ORDER_POPULATION:
+            const population =
+                action.payload === "High"
+                    ? state.countries.sort((a, b) => a.population - b.population)
+                    : state.countries.sort((a, b) => b.population - a.population);
             return {
                 ...state,
-                countries: action.payload
+                countries: population,
+            };
+        case GET_ACTIVITIES:
+            return {
+                ...state,
+                activities: action.payload
             }
-
-        // case GET_ACTIVITIES:
-        //     return {
-        //         ...state,
-        //         activities: action.payload
-        //     }
-        //         case POST_ACTIVITIES:
-        //             return {
-        //                 ...state,
-        //                 activities: action.payload
+        case POST_ACTIVITIES:
+            return {
+                ...state,
+            }
         default: return state;
     }
 

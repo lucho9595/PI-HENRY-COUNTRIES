@@ -6,8 +6,9 @@ import Card from "../Card/Card";
 import './Home.css'
 import NavBar from "../NavBar/NavBar";
 import Paginado from "../Paginado/Paginado";
+import SearchBar from "../SearchBar/SearchBar.jsx";
 
-export default function HomeComponent() {
+export default function Home() {
     const dispatch = useDispatch();
     const countries = useSelector((state) => state.countries) //es lo mismo que hacer el mapStateToProps
     const [, setOrder] = useState("");
@@ -25,7 +26,7 @@ export default function HomeComponent() {
     const indexOfFirstCountry = indexOfLastCountry - countriesPerPage
     //luego realizamos otra constante que nos va a traer los personajes que estan en la pagina actual
     //el slice divide un array, y toma una porcion dependediendo de lo que nosotros pasemos por parametro
-    const currentCountries =  countries && countries.slice(indexOfFirstCountry, indexOfLastCountry);
+    const currentCountries = countries && countries.slice(indexOfFirstCountry, indexOfLastCountry);
 
     //cremos una constante que se llame paginado que le pasamos un numero de la pagina
     // y vamos a setear la pagina en ese numero de pagina
@@ -49,12 +50,11 @@ export default function HomeComponent() {
                 countriesPerPage={countriesPerPage}
                 countries={countries.length}
                 paginado={paginado} />
+            <SearchBar setCurrentPage={setCurrentPage} />
+
             {currentCountries && currentCountries.map(country => {
                 return (<div>
-                    <Card  name={country.name} flag={country.flag} continents={country.continents} population={country.population} activities={country.activities} />
-                    <Link to={`/home/${country.id}`}>
-                        <button >View Details</button>
-                    </Link>
+                    <Card name={country.name} flag={country.flag} continents={country.continents} population={country.population} activities={country.activities} />
                 </div>
                 )
             })}

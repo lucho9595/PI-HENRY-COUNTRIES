@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import  LandingPage from './Component/LandingPage/Landingpage.jsx';
+import  LandingPage from './Component/LandingPage/LandingPage';
 import Home from './Component/Home/Home.jsx';
 import CreateActivity from './Component/CreateActivity/CreateActivity.jsx';
 import Details from './Component/Details/Details.jsx';

@@ -19,7 +19,7 @@ export default function alphaOrder({setOrder}) {
     return (
         <div>
             <select onChange={(e) => handleSort(e)}>
-                <option value=" ">Ordenar</option>
+                <option disable>Ordenar</option>
                 <option value="A-Z"> A-Z </option>
                 <option value="Z-A"> Z-A </option>
             </select>

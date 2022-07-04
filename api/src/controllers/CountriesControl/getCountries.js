@@ -2,10 +2,6 @@ const axios = require('axios');
 const {Country, Activity} = require('../../db');
 
 const getApiInfo = async () => {
-   const countries = await Country.findAll({
-       attributes: ["id", "name", "flag", "continents", "capital", "subregion", "area", "population"],
-   });
-   if (!countries.length) {
        var allCountry = await axios.get("https://restcountries.com/v3/all");
        allCountry = allCountry.data
        allCountry = allCountry.map((element) => {
@@ -23,12 +19,11 @@ const getApiInfo = async () => {
             population: element.population,
            }
        });
-       await Country.bulkCreate(allCountry);
        return allCountry;
-   } else {
-       return countries
-   }
-};
+    }
+    
+
+      
 
 const getDbInfo = async () => {
    return await Country.findAll({
@@ -53,9 +48,6 @@ const getActivity = async () => {
        include: { 
            model: Country,
            attributes:["name", "flag", "continents"],
-           through: {
-               attributes: [],
-           }
        }
    })
    return activity
